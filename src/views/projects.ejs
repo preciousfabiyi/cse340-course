@@ -9,7 +9,7 @@
     <ul>
         <% projects.forEach(project => { %>
             <li>
-                <%= new Date(project.date + 'T00:00:00').toLocaleDateString('en-US', {
+                <%= new Date(project.date).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
