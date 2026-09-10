@@ -7,7 +7,7 @@ const getAllOrganizations = async() => {
     `;
 
     const result = await db.query(query);
-
+                                                                                                                           
     return result.rows;
 }
 
