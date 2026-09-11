@@ -1,10 +1,3 @@
--- =========================================
--- CSE 340 Service Network Database Setup
--- =========================================
-
--- =========================================
--- 1. ORGANIZATION TABLE
--- =========================================
 
 CREATE TABLE IF NOT EXISTS public.organization (
     organization_id SERIAL PRIMARY KEY,
