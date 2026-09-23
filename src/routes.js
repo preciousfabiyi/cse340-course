@@ -11,6 +11,10 @@ import {
 import {
   showCategoriesPage,
   showCategoryDetailsPage,
+  showNewCategoryPage,
+  createNewCategory,
+  showEditCategoryPage,
+  updateExistingCategory,
 } from './controllers/categories.js';
 import { testErrorPage } from './controllers/errors.js';
 
@@ -27,7 +31,14 @@ router.get('/project/:id', showProjectDetailsPage);
 router.get('/categories', showCategoriesPage);
 router.get('/category/:id', showCategoryDetailsPage);
 
+router.get('/new-category', showNewCategoryPage);
+router.post('/new-category', createNewCategory);
+
+router.get('/edit-category/:id', showEditCategoryPage);
+router.post('/edit-category/:id', updateExistingCategory);
+
 // error-handling route
 router.get('/test-error', testErrorPage);
+
 
 export default router;
