@@ -1,8 +1,12 @@
 
-    <%- include('partials/header') %>
+   <%- include('partials/header') %>
 
 <main>
     <h1><%= title %></h1>
+
+    <p>
+        <a href="/new-organization">Create New Organization</a>
+    </p>
 
     <h2>Partner Organizations</h2>
 
@@ -11,6 +15,12 @@
             <li>
                 <a href="/organization/<%= organization.organization_id %>">
                     <%= organization.name %>
+                </a>
+
+                -
+                
+                <a href="/edit-organization/<%= organization.organization_id %>">
+                    Edit
                 </a>
             </li>
         <% }) %>
