@@ -27,4 +27,39 @@ body {
             }
         }
     }
-}                
+}   
+
+.success-message {
+  color: green;
+  background-color: #e8f5e9;
+  border: 1px solid green;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+}
+.error-message {
+  color: red;
+  background-color: #ffe6e6;
+  border: 1px solid red;
+  padding: 10px;
+  margin: 10px 0;
+  list-style-position: inside;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+form button {
+  width: fit-content;
+  margin-top: 10px;
+}

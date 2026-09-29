@@ -1,6 +1,7 @@
 
 import 'dotenv/config';
 import express from 'express';
+import session from 'express-session';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
@@ -24,6 +25,13 @@ const app = express();
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'cse340-secret-key',
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
@@ -43,6 +51,12 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
     next();
+});
+
+app.use((req, res, next) => {
+  res.locals.message = req.session.message || null;
+  delete req.session.message;
+  next();
 });
 
 // Use the imported router to handle routes

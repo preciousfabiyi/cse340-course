@@ -72,6 +72,9 @@ const updateExistingCategory = async (req, res) => {
   }
 
   await updateCategory(categoryId, name);
+
+  req.session.message = 'Category successfully updated.';
+
   res.redirect('/categories');
 };
 

@@ -4,11 +4,13 @@ import {
   getUpcomingProjects,
   getProjectDetails,
   createProject,
-  updateProject,
+  addProjectCategory,
+deleteProjectCategories,
+updateProject,
 } from '../models/projects.js';
 
 import { getAllOrganizations } from '../models/organizations.js';
-
+import { getAllCategories } from '../models/categories.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 // Number of upcoming projects to display
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
@@ -31,22 +33,25 @@ const showProjectDetailsPage = async (req, res) => {
 
 const showNewProjectPage = async (req, res) => {
   const organizations = await getAllOrganizations();
+  const categories = await getAllCategories();
   const title = 'New Service Project';
 
   res.render('new-project', {
     title,
     organizations,
+    categories,
   });
 };
 
 const createNewProject = async (req, res) => {
-  const {
-    organization_id,
-    title,
-    description,
-    location,
-    date,
-  } = req.body;
+ const {
+  organization_id,
+  title,
+  description,
+  location,
+  date,
+  category_ids,
+} = req.body;
 
   if (
     !organization_id ||
@@ -55,7 +60,8 @@ const createNewProject = async (req, res) => {
     !description ||
     !location ||
     location.length > 200 ||
-    !date
+    !date ||
+!category_ids
   ) {
     const organizations = await getAllOrganizations();
 
@@ -69,20 +75,28 @@ const createNewProject = async (req, res) => {
         description,
         location,
         date,
+        category_ids,
       },
     });
 
     return;
   }
 
-  await createProject(
-    organization_id,
-    title,
-    description,
-    location,
-    date,
-  );
+ const newProject = await createProject(
+  organization_id,
+  title,
+  description,
+  location,
+  date,
+);
 
+await deleteProjectCategories(projectId);
+
+for (const categoryId of category_ids) {
+  await addProjectCategory(projectId, categoryId);
+}
+
+req.session.message = 'Project successfully created.';
   res.redirect('/projects');
 };
 
@@ -90,12 +104,16 @@ const showEditProjectPage = async (req, res) => {
   const projectId = req.params.id;
   const project = await getProjectDetails(projectId);
   const organizations = await getAllOrganizations();
+  const categories = await getAllCategories();
+  const selectedCategories = await getCategoriesByProjectId(projectId);
   const title = 'Edit Service Project';
 
   res.render('edit-project', {
     title,
     project,
     organizations,
+    categories,
+    selectedCategories,
   });
 };
 
@@ -108,6 +126,7 @@ const updateExistingProject = async (req, res) => {
     description,
     location,
     date,
+    category_ids,
   } = req.body;
 
   if (
@@ -117,13 +136,17 @@ const updateExistingProject = async (req, res) => {
     !description ||
     !location ||
     location.length > 200 ||
-    !date
+    !date ||
+    !category_ids
   ) {
     const organizations = await getAllOrganizations();
+    const categories = await getAllCategories();
 
     res.status(400).render('edit-project', {
       title: 'Edit Service Project',
       organizations,
+      categories,
+      selectedCategories: [],
       errors: ['Please complete all required project fields.'],
       project: {
         project_id: projectId,
@@ -146,6 +169,14 @@ const updateExistingProject = async (req, res) => {
     location,
     date,
   );
+
+  await deleteProjectCategories(projectId);
+
+  for (const categoryId of category_ids) {
+    await addProjectCategory(projectId, categoryId);
+  }
+
+  req.session.message = 'Project successfully updated.';
 
   res.redirect('/projects');
 };

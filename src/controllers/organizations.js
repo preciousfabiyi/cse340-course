@@ -69,6 +69,7 @@ const createNewOrganization = async (req, res) => {
     logo_filename,
   );
 
+  req.session.message = 'Organization successfully created.';
   res.redirect('/organizations');
 };
 
@@ -124,6 +125,7 @@ const updateExistingOrganization = async (req, res) => {
     logo_filename,
   );
 
+  req.session.message = 'Organization successfully updated.';
   res.redirect('/organizations');
 };
 

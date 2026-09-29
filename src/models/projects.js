@@ -116,6 +116,24 @@ const createProject = async (
   return result.rows[0]
 }
 
+const addProjectCategory = async (projectId, categoryId) => {
+  const query = `
+    INSERT INTO project_category (project_id, category_id)
+    VALUES ($1, $2);
+  `
+
+  await db.query(query, [projectId, categoryId])
+}
+
+const deleteProjectCategories = async (projectId) => {
+  const query = `
+    DELETE FROM project_category
+    WHERE project_id = $1;
+  `
+
+  await db.query(query, [projectId])
+}
+
 const updateProject = async (
   projectId,
   organizationId,
@@ -161,5 +179,7 @@ export {
   getUpcomingProjects,
   getProjectDetails,
   createProject,
+  addProjectCategory,
+  deleteProjectCategories,
   updateProject,
 }
