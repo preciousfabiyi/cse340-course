@@ -1,10 +1,9 @@
-// Import any needed model functions (none are needed for the home page)
-
-// Define any controller functions
-const showHomePage = async (req, res) => {
-    const title = 'Home';
-    res.render('home', { title });
+const showHomePage = (req, res) => {
+  res.render('home', {
+    title: 'Home',
+  });
 };
 
-// Export any controller functions
-export { showHomePage };
+export {
+  showHomePage,
+};

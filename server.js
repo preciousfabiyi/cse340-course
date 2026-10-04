@@ -58,7 +58,11 @@ app.use((req, res, next) => {
   delete req.session.message;
   next();
 });
+app.use((req, res, next) => {
 
+  res.locals.user = req.session.user || null;
+  next();
+});
 // Use the imported router to handle routes
 app.use(router);
 
@@ -68,6 +72,7 @@ app.use((req, res, next) => {
     err.status = 404;
     next(err);
 });
+
 
 // Global error handler
 app.use((err, req, res, next) => {

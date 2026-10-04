@@ -245,4 +245,32 @@ VALUES
 
     -- Project 15
     (15, 3)
-ON CONFLICT (project_id, category_id) DO NOTHING;
+ON CONFLICT (project_id, category_id) DO NOTHING
+-- =========================================
+-- USER TABLE
+-- =========================================
+CREATE TABLE IF NOT EXISTS public.account (
+    account_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'Client'
+);
+INSERT INTO public.account (
+    first_name,
+    last_name,
+    email,
+    password,
+    role
+)
+VALUES (
+    'Admin',
+    'User',
+    'admin@example.com',
+    '$2b$10$JdPPevN/LyPMsKJDY2zLWO0BH37MFbLsyytnQlZYS7HEDxGIXRr82',
+    'Admin'
+)
+ON CONFLICT (email) DO NOTHING;
+
+user
