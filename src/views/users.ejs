@@ -1,25 +1,35 @@
-<h1>Registered Users</h1>
+<%- include('partials/header') %>
 
-<p>All users currently registered in the system.</p>
+<main>
+    <h1>Registered Users</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Role</th>
-    </tr>
-  </thead>
+    <p>All users currently registered in the system.</p>
 
-  <tbody>
-    <% users.forEach(user => { %>
-      <tr>
-        <td>
-          <%= user.first_name %> <%= user.last_name %>
-        </td>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% for (const account of users) { %>
+                <tr>
+                    <td>
+                        <%= account.first_name %> <%= account.last_name %>
+                    </td>
+                    <td>
+                        <%= account.email %>
+                    </td>
+                    <td>
+                        <%= account.role %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</main>
+
+<%- include('partials/footer') %>
