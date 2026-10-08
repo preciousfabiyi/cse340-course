@@ -68,19 +68,16 @@
       value="<%= project.date || '' %>"
       required
     />
-    <label for="category_ids">Categories</label>
-<select id="category_ids" name="category_ids" multiple required>
-  <% categories.forEach(category => { %>
-    <option
-      value="<%= category.category_id %>"
-      <%= selectedCategories.some(
-        selected => String(selected.category_id) === String(category.category_id)
-      ) ? 'selected' : '' %>
-    >
-      <%= category.name %>
-    </option>
-  <% }) %>
-</select>
+    <% if (user && user.role === 'Admin') { %>
+  <label for="category_ids">Categories</label>
+  <select id="category_ids" name="category_ids" multiple required>
+    <% categories.forEach(category => { %>
+      <option value="<%= category.category_id %>">
+        <%= category.name %>
+      </option>
+    <% }) %>
+  </select>
+<% } %>
 
     <button type="submit">Update Service Project</button>
   </form>

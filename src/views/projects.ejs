@@ -6,9 +6,11 @@
   <p class="success-message"><%= message %></p>
 <% } %>
 
+    <% if (user && user.role === 'Admin') { %>
     <p>
         <a href="/new-project">Create New Service Project</a>
     </p>
+<% } %>
 
     <h2>Upcoming Service Projects</h2>
 
@@ -25,9 +27,11 @@
                     <%= project.organization_name %>
                 </a>
                 -
-                <a href="/edit-project/<%= project.project_id %>">
-                    Edit
-                </a>
+                <% if (user && user.role === 'Admin') { %>
+    <a href="/edit-project/<%= project.project_id %>">
+        Edit
+    </a>
+<% } %>
             </li>
         <% }) %>
     </ul>

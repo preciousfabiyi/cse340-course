@@ -69,14 +69,16 @@
   required
 />
 
-<label for="category_ids">Categories</label>
-<select id="category_ids" name="category_ids" multiple required>
-  <% categories.forEach(category => { %>
-    <option value="<%= category.category_id %>">
-      <%= category.name %>
-    </option>
-  <% }) %>
-</select>
+<% if (user && user.role === 'Admin') { %>
+  <label for="category_ids">Categories</label>
+  <select id="category_ids" name="category_ids" multiple required>
+    <% categories.forEach(category => { %>
+      <option value="<%= category.category_id %>">
+        <%= category.name %>
+      </option>
+    <% }) %>
+  </select>
+<% } %>
 
     <button type="submit">Create Service Project</button>
   </form>

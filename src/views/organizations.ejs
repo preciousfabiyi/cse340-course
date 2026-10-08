@@ -7,9 +7,11 @@
   <p class="success-message"><%= message %></p>
    <% } %>
 
+   <% if (user && user.role === 'Admin') { %>
     <p>
         <a href="/new-organization">Create New Organization</a>
     </p>
+<% } %>
 
     <h2>Partner Organizations</h2>
 
@@ -22,9 +24,11 @@
 
                 -
                 
-                <a href="/edit-organization/<%= organization.organization_id %>">
-                    Edit
-                </a>
+               <% if (user && user.role === 'Admin') { %>
+    <a href="/edit-organization/<%= organization.organization_id %>">
+        Edit
+    </a>
+<% } %>
             </li>
         <% }) %>
     </ul>

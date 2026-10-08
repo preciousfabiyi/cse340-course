@@ -78,22 +78,65 @@ router.get(
 router.get('/organizations', showOrganizationsPage);
 router.get('/organization/:id', showOrganizationDetailsPage);
 
-router.get('/new-organization', showNewOrganizationPage);
-router.post('/new-organization', createNewOrganization);
+router.get(
+  '/new-organization',
+  requireLogin,
+  requireRole('Admin'),
+  showNewOrganizationPage,
+);
 
-router.get('/edit-organization/:id', showEditOrganizationPage);
-router.post('/edit-organization/:id', updateExistingOrganization);
+router.post(
+  '/new-organization',
+  requireLogin,
+  requireRole('Admin'),
+  createNewOrganization,
+);
+
+router.get(
+  '/edit-organization/:id',
+  requireLogin,
+  requireRole('Admin'),
+  showEditOrganizationPage,
+);
+
+router.post(
+  '/edit-organization/:id',
+  requireLogin,
+  requireRole('Admin'),
+  updateExistingOrganization,
+);
 
 // Project routes
 router.get('/projects', showProjectsPage);
 router.get('/project/:id', showProjectDetailsPage);
 
-router.get('/new-project', showNewProjectPage);
-router.post('/new-project', createNewProject);
+router.get(
+  '/new-project',
+  requireLogin,
+  requireRole('Admin'),
+  showNewProjectPage,
+);
 
-router.get('/edit-project/:id', showEditProjectPage);
-router.post('/edit-project/:id', updateExistingProject);
+router.post(
+  '/new-project',
+  requireLogin,
+  requireRole('Admin'),
+  createNewProject,
+);
 
+router.get(
+  '/edit-project/:id',
+  requireLogin,
+  requireRole('Admin'),
+  showEditProjectPage,
+);
+
+router.post(
+  '/edit-project/:id',
+  requireLogin,
+  requireRole('Admin'),
+  updateExistingProject,
+);
 // Category routes
 router.get('/categories', showCategoriesPage);
 router.get('/category/:id', showCategoryDetailsPage);
