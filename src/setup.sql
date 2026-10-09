@@ -272,5 +272,21 @@ VALUES (
     'Admin'
 )
 ON CONFLICT (email) DO NOTHING;
+-- Volunteer signups
+CREATE TABLE public.project_volunteer (
+    account_id INTEGER NOT NULL,
+    project_id INTEGER NOT NULL,
 
+    PRIMARY KEY (account_id, project_id),
+
+    CONSTRAINT project_volunteer_account_fk
+        FOREIGN KEY (account_id)
+        REFERENCES public.account (account_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT project_volunteer_project_fk
+        FOREIGN KEY (project_id)
+        REFERENCES public.project (project_id)
+        ON DELETE CASCADE
+);
 user

@@ -2,7 +2,6 @@ import express from 'express';
 
 import { showHomePage } from './controllers/index.js';
 import { showDashboardPage } from './controllers/dashboard.js';
-
 import {
   showOrganizationsPage,
   showOrganizationDetailsPage,
@@ -19,7 +18,11 @@ import {
   createNewProject,
   showEditProjectPage,
   updateExistingProject,
+  volunteerForProject,
+  removeVolunteerFromProject,
 } from './controllers/projects.js';
+
+
 
 import {
   showCategoriesPage,
@@ -140,6 +143,18 @@ router.post(
 // Category routes
 router.get('/categories', showCategoriesPage);
 router.get('/category/:id', showCategoryDetailsPage);
+
+router.post(
+  '/project/:id/volunteer',
+  requireLogin,
+  volunteerForProject,
+);
+
+router.post(
+  '/project/:id/unvolunteer',
+  requireLogin,
+  removeVolunteerFromProject,
+);
 
 // Admin-only category creation
 router.get(

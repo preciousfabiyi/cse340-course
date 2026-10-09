@@ -169,8 +169,63 @@ const updateProject = async (
     projectId,
   ]
 
-  const result = await db.query(query, queryParams)
+    const result = await db.query(query, queryParams)
   return result.rows[0]
+}
+
+const addVolunteer = async (accountId, projectId) => {
+  const query = `
+    INSERT INTO project_volunteer (account_id, project_id)
+    VALUES ($1, $2)
+    ON CONFLICT (account_id, project_id) DO NOTHING;
+  `
+
+  await db.query(query, [accountId, projectId])
+}
+
+const removeVolunteer = async (accountId, projectId) => {
+  const query = `
+    DELETE FROM project_volunteer
+    WHERE account_id = $1
+    AND project_id = $2;
+  `
+
+  await db.query(query, [accountId, projectId])
+}
+
+const getProjectsByVolunteer = async (accountId) => {
+  const query = `
+    SELECT
+      p.project_id,
+      p.title,
+      p.description,
+      p.location,
+      p.date,
+      o.name AS organization_name
+    FROM project_volunteer pv
+    JOIN project p
+      ON pv.project_id = p.project_id
+    JOIN organization o
+      ON p.organization_id = o.organization_id
+    WHERE pv.account_id = $1
+    ORDER BY p.date;
+  `
+
+  const result = await db.query(query, [accountId])
+  return result.rows
+}
+
+const isVolunteer = async (accountId, projectId) => {
+  const query = `
+    SELECT 1
+    FROM project_volunteer
+    WHERE account_id = $1
+    AND project_id = $2;
+  `
+
+  const result = await db.query(query, [accountId, projectId])
+
+  return result.rowCount > 0
 }
 
 export {
@@ -182,4 +237,8 @@ export {
   addProjectCategory,
   deleteProjectCategories,
   updateProject,
+  addVolunteer,
+  removeVolunteer,
+  getProjectsByVolunteer,
+  isVolunteer,
 }
